@@ -9,20 +9,25 @@ namespace Assets.Enemy
     {
         private int _duration;
         private int _tickRate;
-        private BackgroundWorker _backGroundWorker;
-
         private Enemy enemy;
 
-        public EnemyModifier(int duration, int _tickrate) {
-            this._duration = duration;
-            this._tickRate = _tickRate;
+        private BackgroundWorker _backGroundWorker;
 
+        public EnemyModifier(int duration, int tickRate) {
+            this._duration = duration;
+            this._tickRate = tickRate;
+
+            SetWorker();
+        }
+
+        public void SetWorker() {
             _backGroundWorker = new BackgroundWorker();
             _backGroundWorker.DoWork += worker_Tick;
-            System.Timers.Timer timer = new System.Timers.Timer(1000);
-            timer.Elapsed += timer_Elapsed;
-            timer.Start();
 
+            System.Timers.Timer timer = new System.Timers.Timer(_tickRate);
+            timer.Elapsed += timer_Elapsed;
+
+            timer.Start();
         }
 
         private void timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -36,12 +41,5 @@ namespace Assets.Enemy
         {
             //enemy.   
         }
-
-        //public void Tick(Enemy enemy)
-        //{
-        
-            
-
-        //}
     }
 }
