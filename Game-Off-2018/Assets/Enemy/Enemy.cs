@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Enemy.Modifiers;
+using System.Collections.Generic;
 
 namespace Assets.Enemy
 {
