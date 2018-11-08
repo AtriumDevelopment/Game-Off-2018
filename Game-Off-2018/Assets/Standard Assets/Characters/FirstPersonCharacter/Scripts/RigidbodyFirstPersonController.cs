@@ -18,7 +18,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 	        public KeyCode RunKey = KeyCode.LeftShift;
             public float JumpForce = 30f;
             public AnimationCurve SlopeCurveModifier = new AnimationCurve(new Keyframe(-90.0f, 1.0f), new Keyframe(0.0f, 1.0f), new Keyframe(90.0f, 0.0f));
-            [HideInInspector] public float CurrentTargetSpeed = 8f;
+            [HideInInspector] public float CurrentTargetSpeed = 20f;
 
 #if !MOBILE_INPUT
             private bool m_Running;
@@ -154,14 +154,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 if (m_RigidBody.velocity.sqrMagnitude <
                     (movementSettings.CurrentTargetSpeed*movementSettings.CurrentTargetSpeed))
                 {
+                    m_RigidBody.velocity = Vector3.zero;
                     m_RigidBody.AddForce(desiredMove*SlopeMultiplier(), ForceMode.Impulse);
                 }
             }
 
             if (m_IsGrounded)
             {
-                m_RigidBody.drag = 5f;
-
                 if (m_Jump)
                 {
                     m_RigidBody.drag = 0f;
