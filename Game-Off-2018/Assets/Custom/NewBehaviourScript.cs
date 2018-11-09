@@ -12,9 +12,9 @@ public class NewBehaviourScript : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
 	{
-	    transform.Translate(moveSpeed * Input.GetAxis("Horizontal") * Time.deltaTime, 0f,
+	    GetComponent<Rigidbody>().velocity = new Vector3(moveSpeed * Input.GetAxis("Horizontal") * Time.deltaTime, 0f,
 	        moveSpeed * Input.GetAxis("Vertical") * Time.deltaTime);
 	}
 }
