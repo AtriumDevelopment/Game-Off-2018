@@ -1,9 +1,10 @@
 ﻿using Assets.Enemy.Modifiers;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets.Enemy
 {
-    public abstract class Enemy
+    public abstract class Enemy : MonoBehaviour
     {
         public Enemy(int maxHealth)
         {

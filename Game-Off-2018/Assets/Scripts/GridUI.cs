@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -32,7 +33,23 @@ public class GridUI : MonoBehaviour
 
     private void Clicked()
     {
-        HUD.NewPositionSelected(EventSystem.current.currentSelectedGameObject.transform.position);
+        var clicked = EventSystem.current.currentSelectedGameObject;
+        HUD.text.text = clicked.transform.position.ToString();
+
+        if (!_towers.ContainsKey(clicked.transform.position))
+        {
+            var go = Instantiate(tower);
+            go.transform.position = clicked.transform.position;
+            _towers.Add(clicked.transform.position, go);
+        }
+        else
+        {
+            Destroy(_towers[clicked.transform.position]);
+            _towers.Remove(clicked.transform.position);
+        }
+        
     }
 	
 }
+
+        HUD.NewPositionSelected(EventSystem.current.currentSelectedGameObject.transform.position);
