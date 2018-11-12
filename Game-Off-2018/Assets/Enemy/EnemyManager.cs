@@ -26,18 +26,17 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    void SpawnEnemy() {
+    void SpawnEnemy()
+    {
         var enemyObject = Instantiate(enemyPrefab, SpawnPoint, SpawnPoint);
 
         //Type unkown get from gamemanager.
-       Goblin instanceOf = enemyObject.AddComponent<Goblin>();
-
-        //enemy.MovementSpeed;
+        Goblin instanceOf = enemyObject.AddComponent<Goblin>();
 
         enemyObject.transform.position = SpawnPoint.position;
 
         Movement movement = enemyObject.AddComponent<Movement>();
-        movement.MovementSpeed = 10;
+        movement.MovementSpeed = instanceOf.MovementSpeed;
         movement.WayPoints = this.Waypoints;
         movement.EndPoint = this.EndPoint;
     }
