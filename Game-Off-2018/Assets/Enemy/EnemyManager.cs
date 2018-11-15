@@ -1,13 +1,10 @@
-﻿using Assets.Enemy;
-using System.Collections;
+﻿using UnityEngine;
+using Assets.Enemy;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
 
-public class EnemyManager : MonoBehaviour
+public class EnemyManager : ScriptableObject
 {
     // Use this for initialization
-
     public float spawnTime;
     public float spawnAmount;
 
@@ -17,34 +14,41 @@ public class EnemyManager : MonoBehaviour
     public Transform EndPoint;
     public List<Transform> Waypoints;
 
+    public List<Enemy> currentEnemies;
 
-    void Start()
+  
+    public void SpawnEnemies(List<Dictionary<Enemy, int>> enemies)
     {
-        for (int i = 0; i < spawnAmount; i++)
-        {
-            InvokeRepeating("SpawnEnemy", spawnTime, spawnTime);
+        for (int i = 0; i < enemies.Count; i++) {
+            Dictionary<Enemy, int> dictionary = enemies[i];
+
+            foreach (var item in dictionary)
+            {
+                for (int j = 0; j < item.Value; j++) {
+                    Enemy c = item.Key;
+                    c.Initialize(10, 10);
+                    SpawnEnemy(c);
+                }
+            }
         }
     }
 
-    void SpawnEnemy()
+
+    public void SpawnEnemy(Enemy enemy)
     {
-        var enemyObject = Instantiate(enemyPrefab, SpawnPoint, SpawnPoint);
+        var instantiatedEnemy = Instantiate(enemyPrefab, SpawnPoint, SpawnPoint);
 
-        //Type unkown get from gamemanager.
-        Goblin enemyC = enemyObject.AddComponent<Goblin>();
+        SpawnableEnemy EnemyInstnace = instantiatedEnemy.AddComponent<SpawnableEnemy>();
+        EnemyInstnace.Enemy = enemy;
 
-        enemyObject.transform.position = SpawnPoint.position;
 
-        Movement movement = enemyObject.AddComponent<Movement>();
-        movement.MovementSpeed = enemyC.MovementSpeed;
-        movement.WayPoints = this.Waypoints;
-        movement.EndPoint = this.EndPoint;
+        EnemyInstnace.WayPoints = this.Waypoints;
+        EnemyInstnace.EndPoint = this.EndPoint;
+        EnemyInstnace.transform.position = SpawnPoint.position;
+
+        currentEnemies.Add(enemy);
     }
 
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    public List<Enemy> AllEnemies { get { return currentEnemies; } }
 }

@@ -1,11 +1,10 @@
 ﻿namespace Assets.Enemy
 {
     public class Goblin : Enemy
-    { 
-        public Goblin(int maxHealth) : base(maxHealth)
+    {
+        public override void Initialize(int maxHealth, int movementSpeed)
         {
-            maxHealth = 200;
-            MovementSpeed = 10;
+            base.Initialize(maxHealth, movementSpeed);
         }
     }
 }

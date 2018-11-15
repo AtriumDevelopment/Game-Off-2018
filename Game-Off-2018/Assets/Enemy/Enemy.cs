@@ -1,12 +1,10 @@
-﻿using Assets.Enemy.Modifiers;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Enemy
 {
-    public abstract class Enemy : MonoBehaviour
+    public abstract class Enemy : ScriptableObject
     {
-        public Enemy(int maxHealth)
+        public virtual void Initialize(int maxHealth, int movementSpeed)
         {
             this.MaxHealth = maxHealth;
             this.CurrentHealth = maxHealth;
@@ -18,9 +16,17 @@ namespace Assets.Enemy
             this.CurrentHealth -= health;
         }
 
-        public List<EnemyModifier> EnemyModifiers { get; set;}
-        public int MovementSpeed { get; set; }
+        /// <summary>
+        /// Max enemy health
+        /// </summary>
         public int MaxHealth { get; set; }
+        /// <summary>
+        /// Current enemy health
+        /// </summary>
         public int CurrentHealth { get; set; }
+        /// <summary>
+        /// The movementspeed of the object
+        /// </summary>
+        public float MovementSpeed { get; set; }
     }
 }
