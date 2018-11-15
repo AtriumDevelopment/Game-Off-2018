@@ -6,13 +6,13 @@ namespace Assets
 {
     public class LevelManager
     {
-        private static Dictionary<int, Dictionary<Enemy.Enemy, int>> _levels;
+        private static List<List<Enemy.Enemy>> _levels;
         private int _currentLevel;
 
         public LevelManager()
         {
-            _levels = new Dictionary<int, Dictionary<Enemy.Enemy, int>>();
-            _currentLevel = 1;
+            _levels = new List<List<Enemy.Enemy>>();
+            _currentLevel = 0;
 
 
             TestLevels();
@@ -26,15 +26,15 @@ namespace Assets
 
         public void TestLevels()
         {
-            var inner = new Dictionary<Enemy.Enemy, int>();
-            inner.Add(new Goblin(), 10);
-
-            _levels.Add(1, inner);
-
-            var inner1 = new Dictionary<Enemy.Enemy, int>();
-
-            inner1.Add(new Goblin(), 20);
-            _levels.Add(2, inner1);
+            for (int i = 0; i < 100; i++)
+            {
+                var lvl = new List<Enemy.Enemy>();
+                for (int j = 0; j < (i + 1)* 10; j++)
+                {
+                    lvl.Add(new Goblin(200 * i, 10));
+                }
+                _levels.Add(lvl);
+            }
         }
 
 
@@ -43,10 +43,9 @@ namespace Assets
             //From file
         }
 
-        public List<Dictionary<Enemy.Enemy, int>> GetAllEnemies()
+        public List<Enemy.Enemy> GetAllEnemies()
         {
-            var enemiesForLevel = _levels.Where(n => n.Key == _currentLevel).Select(n => n.Value).ToList();
-            return enemiesForLevel;
+            return _levels[_currentLevel];
         }
     }
 }

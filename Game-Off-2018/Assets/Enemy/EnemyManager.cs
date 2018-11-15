@@ -13,19 +13,11 @@ namespace Assets.Enemy
         public readonly List<GameObject> CurrentEnemies = new List<GameObject>();
 
   
-        public void SpawnEnemies(List<Dictionary<Enemy, int>> enemies)
+        public void SpawnEnemies(List<Enemy> enemies)
         {
-            for (int i = 0; i < enemies.Count; i++) {
-                Dictionary<Enemy, int> dictionary = enemies[i];
-
-                foreach (var item in dictionary)
-                {
-                    for (int j = 0; j < item.Value; j++) {
-                        Enemy c = item.Key;
-                        c.Initialize(10, 10);
-                        SpawnEnemy(c);
-                    }
-                }
+            foreach (var enemy in enemies)
+            {
+                SpawnEnemy(enemy);
             }
         }
 
@@ -36,7 +28,7 @@ namespace Assets.Enemy
 
             EnemyScript enemyScript = instantiatedEnemy.AddComponent<EnemyScript>();
             enemyScript.Enemy = enemy;
-            enemyScript.WayPoints = this.WayPoints;
+            enemyScript.WayPoints = WayPoints;
             enemyScript.OnDeathDelegate += RemoveEnemy;
 
             CurrentEnemies.Add(instantiatedEnemy);

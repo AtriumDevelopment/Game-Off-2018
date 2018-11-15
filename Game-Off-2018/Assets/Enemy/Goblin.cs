@@ -2,9 +2,12 @@
 {
     public class Goblin : Enemy
     {
-        public override void Initialize(int maxHealth, int movementSpeed)
+        public Goblin(Enemy enemy) : base(enemy)
         {
-            base.Initialize(maxHealth, movementSpeed);
+        }
+
+        public Goblin(int maxHealth, int movementSpeed) : base(maxHealth, movementSpeed)
+        {
         }
     }
 }

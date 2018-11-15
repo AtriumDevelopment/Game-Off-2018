@@ -4,10 +4,10 @@ public class TowerScript : MonoBehaviour
 {
     private GameManager _gameManager;
     private Transform _target;
-    private readonly int attackSpeed = 10;
+    private readonly int attackSpeed = 100;
 
     public GameObject Projectile;
-    private readonly int range = 10;
+    private readonly int range = 50;
     private int ticks;
 
     // Use this for initialization

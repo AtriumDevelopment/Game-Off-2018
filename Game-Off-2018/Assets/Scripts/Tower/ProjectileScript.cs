@@ -9,7 +9,7 @@ public class ProjectileScript : MonoBehaviour
 {
 
     public Transform Target;
-    public float speed = 10;
+    public float speed = 1000;
 
  
 

@@ -4,16 +4,23 @@ namespace Assets.Enemy
 {
     public abstract class Enemy
     {
-        public virtual void Initialize(int maxHealth, int movementSpeed)
+        public Enemy(Enemy enemy)
         {
-            this.MaxHealth = maxHealth;
-            this.CurrentHealth = maxHealth;
-            this.MovementSpeed = 100;
+            MaxHealth = enemy.MaxHealth;
+            CurrentHealth = enemy.CurrentHealth;
+            MovementSpeed = enemy.MovementSpeed;
+        }
+
+        public Enemy(int maxHealth, int movementSpeed)
+        {
+            MaxHealth = maxHealth;
+            CurrentHealth = maxHealth;
+            MovementSpeed = movementSpeed;
         }
 
         private void TakeDamage(int health)
         {
-            this.CurrentHealth -= health;
+            CurrentHealth -= health;
         }
 
         public virtual GameObject GetPrefab()
