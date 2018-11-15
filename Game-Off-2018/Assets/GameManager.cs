@@ -1,28 +1,28 @@
-﻿using Assets;
+﻿using System.Collections.Generic;
+using Assets;
 using Assets.Enemy;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
+    public readonly EnemyManager EnemyManager = new EnemyManager();
+    public readonly LevelManager LevelManager = new LevelManager();
+    public Transform Grid;
 
-    public EnemyManager enemyManager;
-    public List<Enemy> enemies;
-    public LevelManager levelManager;
+    // Use this for initialization
+    private void Start()
+    {
+        EnemyManager.SpawnPoint = Grid.GetChild(1).transform.position;
+        EnemyManager.WayPoints = new List<Vector3> {Grid.GetChild(3599).transform.position};
+    }
 
-
-	// Use this for initialization
-	void Start () {
-       enemies = enemyManager.AllEnemies;
-       levelManager = new LevelManager();
-
-        var level = levelManager.GetAllEnemies();
-
-       enemyManager.SpawnEnemies(level);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    // Update is called once per frame
+    private void Update()
+    {
+        if (EnemyManager.CurrentEnemies.Count == 0)
+        {
+            EnemyManager.SpawnEnemies(LevelManager.GetAllEnemies());
+            LevelManager.Advance();
+        }
+    }
 }

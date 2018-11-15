@@ -1,54 +1,52 @@
-﻿using UnityEngine;
-using Assets.Enemy;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
-public class EnemyManager : ScriptableObject
+namespace Assets.Enemy
 {
-    // Use this for initialization
-    public float spawnTime;
-    public float spawnAmount;
+    public class EnemyManager : MonoBehaviour
+    {
+        // Use this for initialization
+        public Vector3 SpawnPoint;
+        public List<Vector3> WayPoints;
 
-    public GameObject enemyPrefab;
-
-    public Transform SpawnPoint;
-    public Transform EndPoint;
-    public List<Transform> Waypoints;
-
-    public List<Enemy> currentEnemies;
+        public readonly List<GameObject> CurrentEnemies = new List<GameObject>();
 
   
-    public void SpawnEnemies(List<Dictionary<Enemy, int>> enemies)
-    {
-        for (int i = 0; i < enemies.Count; i++) {
-            Dictionary<Enemy, int> dictionary = enemies[i];
+        public void SpawnEnemies(List<Dictionary<Enemy, int>> enemies)
+        {
+            for (int i = 0; i < enemies.Count; i++) {
+                Dictionary<Enemy, int> dictionary = enemies[i];
 
-            foreach (var item in dictionary)
-            {
-                for (int j = 0; j < item.Value; j++) {
-                    Enemy c = item.Key;
-                    c.Initialize(10, 10);
-                    SpawnEnemy(c);
+                foreach (var item in dictionary)
+                {
+                    for (int j = 0; j < item.Value; j++) {
+                        Enemy c = item.Key;
+                        c.Initialize(10, 10);
+                        SpawnEnemy(c);
+                    }
                 }
             }
         }
+
+
+        public void SpawnEnemy(Enemy enemy)
+        {
+            var instantiatedEnemy = Instantiate(enemy.GetPrefab(), SpawnPoint, new Quaternion(0,0,0,0));
+
+            EnemyScript enemyScript = instantiatedEnemy.AddComponent<EnemyScript>();
+            enemyScript.Enemy = enemy;
+            enemyScript.WayPoints = this.WayPoints;
+            enemyScript.OnDeathDelegate += RemoveEnemy;
+
+            CurrentEnemies.Add(instantiatedEnemy);
+        }
+
+        public void RemoveEnemy(GameObject enemy)
+        {
+            CurrentEnemies.Remove(enemy);
+            Destroy(enemy);
+        }
+
     }
-
-
-    public void SpawnEnemy(Enemy enemy)
-    {
-        var instantiatedEnemy = Instantiate(enemyPrefab, SpawnPoint, SpawnPoint);
-
-        SpawnableEnemy EnemyInstnace = instantiatedEnemy.AddComponent<SpawnableEnemy>();
-        EnemyInstnace.Enemy = enemy;
-
-
-        EnemyInstnace.WayPoints = this.Waypoints;
-        EnemyInstnace.EndPoint = this.EndPoint;
-        EnemyInstnace.transform.position = SpawnPoint.position;
-
-        currentEnemies.Add(enemy);
-    }
-
-
-    public List<Enemy> AllEnemies { get { return currentEnemies; } }
 }

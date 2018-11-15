@@ -4,17 +4,16 @@ namespace Assets.Enemy.Modifiers
 {
     class DamageModifier : EnemyModifier
     {
-        private int _damageModifier;
+        private int _damage;
 
-        public DamageModifier(int duration, int modifier) : base(duration, modifier)
+        public DamageModifier(int duration, int damage) : base(duration)
         {
-            duration = 60;
-            _damageModifier = modifier;
+            _damage = damage;
         }
 
-        protected override void worker_Tick(object sender, DoWorkEventArgs e)
+        public override void Tick(Enemy enemy)
         {
-            this.Enemy.MovementSpeed += _damageModifier;
+            enemy.CurrentHealth -= _damage;
         }
     }
 }

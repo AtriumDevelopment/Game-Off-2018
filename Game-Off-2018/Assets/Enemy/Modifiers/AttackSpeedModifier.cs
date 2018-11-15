@@ -4,17 +4,13 @@ namespace Assets.Enemy.Modifiers
 { 
     class AttackSpeedModifier : EnemyModifier
     {
-        private int _attackSpeedModifier;
-
-        public AttackSpeedModifier(int duration, int modifier) : base(duration, modifier)
+        public AttackSpeedModifier(int duration) : base(duration)
         {
-            duration = 60;
-            _attackSpeedModifier = modifier;
         }
 
-        protected override void worker_Tick(object sender, DoWorkEventArgs e)
+        public override void Tick(Enemy enemy)
         {
-            this.Enemy.MovementSpeed += _attackSpeedModifier;
+            throw new System.NotImplementedException();
         }
     }
 }

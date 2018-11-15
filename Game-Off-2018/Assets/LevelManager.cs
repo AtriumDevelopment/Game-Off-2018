@@ -1,8 +1,6 @@
-﻿using Assets.Enemy;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Assets.Enemy;
 
 namespace Assets
 {
@@ -11,24 +9,27 @@ namespace Assets
         private static Dictionary<int, Dictionary<Enemy.Enemy, int>> _levels;
         private int _currentLevel;
 
-        public LevelManager() {
-           _levels = new Dictionary<int, Dictionary<Enemy.Enemy, int>>();
+        public LevelManager()
+        {
+            _levels = new Dictionary<int, Dictionary<Enemy.Enemy, int>>();
             _currentLevel = 1;
 
 
             TestLevels();
         }
 
-        public void Advance() {
-            this._currentLevel += 1;
+        public void Advance()
+        {
+            _currentLevel += 1;
         }
 
 
-        public void TestLevels() {
+        public void TestLevels()
+        {
             var inner = new Dictionary<Enemy.Enemy, int>();
             inner.Add(new Goblin(), 10);
 
-            _levels.Add(1 , inner);
+            _levels.Add(1, inner);
 
             var inner1 = new Dictionary<Enemy.Enemy, int>();
 
@@ -36,13 +37,15 @@ namespace Assets
             _levels.Add(2, inner1);
         }
 
-       
-        public void LoadLevels() {
+
+        public void LoadLevels()
+        {
             //From file
         }
 
-        public List<Dictionary<Enemy.Enemy, int>> GetAllEnemies() {
-            var enemiesForLevel = _levels.Where(n => n.Key == _currentLevel).Select( n=> n.Value).ToList();
+        public List<Dictionary<Enemy.Enemy, int>> GetAllEnemies()
+        {
+            var enemiesForLevel = _levels.Where(n => n.Key == _currentLevel).Select(n => n.Value).ToList();
             return enemiesForLevel;
         }
     }

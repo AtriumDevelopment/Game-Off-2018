@@ -18,7 +18,7 @@ public class GridUI : MonoBehaviour
     private int area = 60;
 
     // Use this for initialization
-    private void Start()
+    private void Awake()
     {
         for (var i = 0; i < area * area; i++)
         {

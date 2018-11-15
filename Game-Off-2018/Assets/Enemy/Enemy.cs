@@ -2,7 +2,7 @@
 
 namespace Assets.Enemy
 {
-    public abstract class Enemy : ScriptableObject
+    public abstract class Enemy
     {
         public virtual void Initialize(int maxHealth, int movementSpeed)
         {
@@ -14,6 +14,11 @@ namespace Assets.Enemy
         private void TakeDamage(int health)
         {
             this.CurrentHealth -= health;
+        }
+
+        public virtual GameObject GetPrefab()
+        {
+            return Resources.Load<GameObject>("DefaultEnemy");
         }
 
         /// <summary>

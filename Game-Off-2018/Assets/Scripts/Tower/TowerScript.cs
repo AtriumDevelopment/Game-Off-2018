@@ -1,33 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TowerScript : MonoBehaviour
 {
+    private GameManager _gameManager;
+    private Transform _target;
+    private readonly int attackSpeed = 10;
 
     public GameObject Projectile;
-    private int attackSpeed = 100;
-    private int range = 10;
-    private Transform target;
-
+    private readonly int range = 10;
     private int ticks;
-	// Use this for initialization
-	void Start () {
-		target = GameObject.Find("Body").transform;
+
+    // Use this for initialization
+    private void Start()
+    {
+        _gameManager = GameObject.Find("World").GetComponent<GameManager>();
     }
-	
-	// Update is called once per frame
-	void Update ()
-	{
-	    ticks++;
-	    if (Vector3.Distance(transform.position,target.position) <= range && ticks >= attackSpeed)
-	    {
-	        ticks = 0;
-	        var bullet = Instantiate(Projectile);
-	        bullet.transform.position = transform.position;
-	        var projectileScript = bullet.GetComponent<ProjectileScript>();
-	        projectileScript.Target = target;
-	    }
-	        
-	}
+
+    // Update is called once per frame
+    private void Update()
+    {
+        if (_target == null && _gameManager.EnemyManager.CurrentEnemies.Count > 0)
+            _target = _gameManager.EnemyManager.CurrentEnemies[0].transform;
+        else if (_target != null)
+        {
+            ticks++;
+            if (Vector3.Distance(transform.position, _target.position) <= range && ticks >= attackSpeed)
+            {
+                ticks = 0;
+                var bullet = Instantiate(Projectile);
+                bullet.transform.position = transform.position;
+                var projectileScript = bullet.GetComponent<ProjectileScript>();
+                projectileScript.Target = _target;
+            }
+        }
+    }
 }
