@@ -31,7 +31,7 @@ namespace Assets
                 var lvl = new List<Enemy.Enemy>();
                 for (int j = 0; j < (i + 1)* 10; j++)
                 {
-                    lvl.Add(new Goblin(200 * i, 10));
+                    lvl.Add(new Goblin(100, 10));
                 }
                 _levels.Add(lvl);
             }
