@@ -8,22 +8,24 @@ using UnityEngine;
 public class ProjectileScript : MonoBehaviour
 {
 
-    public Transform Target;
-    public float speed = 1000;
+    public List<Transform> Targets;
+    public float speed = 50;
 
  
 
     // Update is called once per frame
     void Update () {
-	    if (Target == null)
+	    if (Targets.Count == 0)
 	        Destroy(gameObject);
-	    else
-	    {
+        else if (Targets[0] == null)
+	        Targets.Remove(Targets[0]);
+        else
+        {
 	        // The step size is equal to speed times frame time.
 	        float step = speed * Time.deltaTime;
 
 	        // Move our position a step closer to the target.
-	        transform.position = Vector3.MoveTowards(transform.position, Target.position, step);
+	        transform.position = Vector3.MoveTowards(transform.position, Targets[0].position, step);
         }
     }
 
@@ -32,7 +34,6 @@ public class ProjectileScript : MonoBehaviour
         var enemy = other.gameObject.GetComponent<EnemyScript>();
         if ( enemy != null)
         {
-            Destroy(gameObject);
             enemy.EnemyModifiers.Add(new DamageModifier(1, 100));
         }
     }

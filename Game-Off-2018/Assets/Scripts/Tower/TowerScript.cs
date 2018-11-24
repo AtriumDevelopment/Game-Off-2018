@@ -1,40 +1,28 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Assets.Scripts.Tower.Attacks;
+using Assets.Scripts.Tower.Supports;
+using UnityEngine;
 
-public class TowerScript : MonoBehaviour
+namespace Assets.Scripts.Tower
 {
-    private readonly int attackSpeed = 100;
-    private readonly int range = 20;
-    private GameManager _gameManager;
-    private Transform _target;
-
-    public GameObject Projectile;
-    private int ticks;
-
-    // Use this for initialization
-    private void Start()
+    public class TowerScript : MonoBehaviour
     {
-        _gameManager = GameObject.Find("World").GetComponent<GameManager>();
-    }
+        public List<ISupport> Supports { get; set; }
 
-    // Update is called once per frame
-    private void Update()
-    {
-        if (_target == null && _gameManager.EnemyManager.CurrentEnemies.Count > 0)
+        // Use this for initialization
+        private void Start()
         {
-            _target = _gameManager.EnemyManager.CurrentEnemies[0].transform;
-        }
-        else if (_target != null)
-        {
-            if (Vector3.Distance(transform.position, _target.position) <= range)
+            Supports = new List<ISupport>();
+            Supports.Add(new BounceSupport());
+            gameObject.AddComponent<DefaultAttack>();
+
+            var test = gameObject.GetComponents<Attack>();
+
+            foreach (var attack in test)
             {
-                ticks++;
-                if (ticks >= attackSpeed)
+                foreach (var support in Supports)
                 {
-                    ticks = 0;
-                    var bullet = Instantiate(Projectile);
-                    bullet.transform.position = transform.position;
-                    var projectileScript = bullet.GetComponent<ProjectileScript>();
-                    projectileScript.Target = _target;
+                    support.Apply(attack);
                 }
             }
         }
